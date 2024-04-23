@@ -1,0 +1,29 @@
+{
+    "name": "lordy/project",
+    "description": "PHP Custom Framework",
+    "type": "project",
+    "version": "1.0.0",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "LORDyyyyy",
+            "email": "mlord6271@gmail.com"
+        }
+    ],
+    "require": {
+        "vlucas/phpdotenv": "^5.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "Framework\\": "src/Framework",
+            "App\\": "src/App"
+        },
+        "files": [
+            "src/App/Config/Routes.php",
+            "src/App/Config/Middleware.php"
+        ]
+    },
+    "scripts": {
+        "phpiggy": "php cli.php"
+    }
+}
