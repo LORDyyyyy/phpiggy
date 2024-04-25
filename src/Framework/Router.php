@@ -114,7 +114,7 @@ class Router
                 $container->resolve($class) :
                 new $class;
 
-            $action = fn () => $controllerInstance->{$function}($params);
+            $action = fn ($params) => $controllerInstance->{$function}($params);
 
             $allMiddlewares = [...$route['middlewares'], ...$this->middlewares];
 
@@ -128,10 +128,10 @@ class Router
                 ) {
                     continue;
                 }
-                $action = fn () => $middlewareInstance->process($action, $params);
+                $action = fn ($params) => $middlewareInstance->process($action, $params);
             }
 
-            $action();
+            $action($params);
 
             if ($route['isAPI']) {
                 exit;

@@ -24,7 +24,7 @@ class CsrfGuardMiddleware implements MiddlewareInterface, NonAPIValidation
      * @param callable $next The next middleware in the pipeline.
      * @throws ValidationException If the CSRF token is invalid.
      */
-    public function process(callable $next)
+    public function process(callable $next, ?array &$params)
     {
         $requestMethod = strtoupper($_SERVER['REQUEST_METHOD']);
         $validMethods = ['POST', 'PATCH', 'DELETE', 'PUT'];
@@ -37,6 +37,6 @@ class CsrfGuardMiddleware implements MiddlewareInterface, NonAPIValidation
             unset($_SESSION['token']);
         }
 
-        $next();
+        $next($params);
     }
 }

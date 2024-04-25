@@ -24,10 +24,10 @@ class TemplateDataMiddleware implements MiddlewareInterface
      *
      * @param callable $next The next middleware.
      */
-    public function process(callable $next)
+    public function process(callable $next, ?array &$params)
     {
         $this->view->addGlobal('title', $_ENV['APP_NAME'] ?? 'FB');
 
-        $next();
+        $next($params);
     }
 }

@@ -40,7 +40,7 @@ class TransactionController
         redirectTo('/');
     }
 
-    public function editView(array $params)
+    public function editView(array &$params)
     {
         // Middleware: TransactionExistsMiddleware
 
@@ -49,6 +49,7 @@ class TransactionController
         );
 
 
+        echo var_dump($params) . "<br>";
         echo $this->view->render("transactions/edit.php", [
             'transaction' => $transaction
         ]);

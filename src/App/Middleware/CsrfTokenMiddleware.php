@@ -37,12 +37,12 @@ class CsrfTokenMiddleware implements MiddlewareInterface, NonAPIValidation
      *
      * @param callable $next The next middleware in the pipeline.
      */
-    public function process(callable $next)
+    public function process(callable $next, ?array &$params)
     {
         $_SESSION['token'] =  $_SESSION['token'] ?? bin2hex(random_bytes(32));
 
         $this->view->addGlobal('csrfToken', $_SESSION['token']);
 
-        $next();
+        $next($params);
     }
 }

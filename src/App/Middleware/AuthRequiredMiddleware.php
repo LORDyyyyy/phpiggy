@@ -17,7 +17,7 @@ class AuthRequiredMiddleware implements MiddlewareInterface
      * @param callable $next The next middleware to be called.
      * @return void
      */
-    public function process(callable $next)
+    public function process(callable $next, ?array &$params)
     {
         if (empty($_SESSION['user'])) {
             if (in_array('HTTP_API_REQUEST', headers_list())) {
@@ -27,6 +27,6 @@ class AuthRequiredMiddleware implements MiddlewareInterface
             redirectTo('/login');
         }
 
-        $next();
+        $next($params);
     }
 }

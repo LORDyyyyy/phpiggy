@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace App\Middleware;
+namespace App\Middleware\ControllersMiddlewares;
 
-use Framework\Interfaces\MiddlewareWithParamsInterface;
+use Framework\Interfaces\MiddlewareInterface;
 use App\Services\TransactionService;
 
 /**
  * Middleware that checks if a transaction exists before allowing access to a route.
  */
-class TransactionExistsMiddleware implements MiddlewareWithParamsInterface
+class TransactionExistsMiddleware implements MiddlewareInterface
 {
     private TransactionService $transactionService;
 
@@ -19,7 +19,7 @@ class TransactionExistsMiddleware implements MiddlewareWithParamsInterface
         $this->transactionService = $transactionService;
     }
 
-    public function process(callable $next, array $params)
+    public function process(callable $next, ?array &$params)
     {
         $transaction = $this->transactionService->getTransaction(
             $params['transaction']
@@ -28,6 +28,8 @@ class TransactionExistsMiddleware implements MiddlewareWithParamsInterface
         if (!$transaction) {
             redirectTo('/');
         }
+
+        $params['test'] = 'test';
 
         $next($params);
     }

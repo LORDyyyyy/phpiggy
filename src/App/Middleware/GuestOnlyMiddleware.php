@@ -17,7 +17,7 @@ class GuestOnlyMiddleware implements MiddlewareInterface
      * @param callable $next The next middleware to be called.
      * @return void
      */
-    public function process(callable $next): void
+    public function process(callable $next, ?array &$params): void
     {
         if (!empty($_SESSION['user'])) {
             if (in_array('HTTP_API_REQUEST', headers_list())) {
@@ -27,6 +27,6 @@ class GuestOnlyMiddleware implements MiddlewareInterface
             redirectTo('/');
         }
 
-        $next();
+        $next($params);
     }
 }

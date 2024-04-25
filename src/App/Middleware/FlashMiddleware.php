@@ -31,7 +31,7 @@ class FlashMiddleware implements MiddlewareInterface
      *
      * @param callable $next The next middleware in the pipeline.
      */
-    public function process(callable $next)
+    public function process(callable $next, ?array &$params)
     {
         $this->view->addGlobal('errors', $_SESSION['errors'] ?? []);
         unset($_SESSION['errors']);
@@ -39,6 +39,6 @@ class FlashMiddleware implements MiddlewareInterface
         $this->view->addGlobal('oldFormData', $_SESSION['oldFormData'] ?? []);
         unset($_SESSION['oldFormData']);
 
-        $next();
+        $next($params);
     }
 }

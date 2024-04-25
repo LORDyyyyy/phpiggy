@@ -17,6 +17,9 @@ use App\Controllers\{
 use App\Middleware\{
     AuthRequiredMiddleware,
     GuestOnlyMiddleware,
+};
+
+use App\Middleware\ControllersMiddlewares\{
     TransactionExistsMiddleware
 };
 

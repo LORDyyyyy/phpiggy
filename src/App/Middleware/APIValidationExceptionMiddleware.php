@@ -25,10 +25,10 @@ class APIValidationExceptionMiddleware implements MiddlewareInterface, APIValida
      * @return mixed The response returned by the next middleware
      * @throws APIValidationException If an API validation exception occurs
      */
-    public function process(callable $next)
+    public function process(callable $next, ?array &$params)
     {
         try {
-            return $next();
+            return $next($params);
         } catch (APIValidationException $e) {
             $_SESSION['errors'] = $e->errors;
 

@@ -22,7 +22,7 @@ class SessionMiddleware implements MiddlewareInterface
      * @return mixed The result of the next middleware.
      * @throws SessionException If the session is already active or if headers are already sent.
      */
-    public function process(callable $next)
+    public function process(callable $next, ?array &$params)
     {
         if (session_status() === PHP_SESSION_ACTIVE) {
             throw new SessionException("Session is already active.");
@@ -31,17 +31,21 @@ class SessionMiddleware implements MiddlewareInterface
         if (headers_sent($filename, $line)) {
             throw new SessionException("Headers already sent. Consider enabling output buffering. Data output started from {$filename} at line {$line}.");
         }
+        //365 * 24 * 3600 : 0 ?? 0 ?? 0
+        $cookie_expiration_time = isset($_POST['rememberMe']) ?
+            ($_POST['rememberMe'] ? 365 * 24 * 3600 : 0) :
+            0;
 
         session_set_cookie_params([
             'secure' => $_ENV['APP_ENV'] === 'production' ? true : false,
             'httponly' => true,
             'samesite' => 'lax',
-            'lifetime' => $_POST['rememberMe'] ? 365 * 24 * 3600 : 0 ?? 0,
+            'lifetime' => $cookie_expiration_time,
         ]);
 
         session_start();
 
-        $next();
+        $next($params);
 
         session_write_close();
     }
